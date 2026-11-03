@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione - VibeMate</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #0f0f13; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .box { background: #1a1a24; padding: 25px; border-radius: 20px; width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #2a2a38; }
+        h2 { margin: 0 0 10px; color: #ff4757; text-align: center; }
+        input, select, textarea, button { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #0f0f13; color: white; font-size: 14px; }
+        textarea { resize: vertical; height: 80px; }
+        button { background: #ff4757; font-weight: bold; cursor: pointer; border: none; margin-top: 5px; }
+        a { color: #ff4757; text-decoration: none; text-align: center; display: block; margin-top: 10px; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <form class='box' method='POST'>
+        <h2>VibeMate Lombardia 🔥</h2>
+        <input type='email' name='email' placeholder='Email' required>
+        <input type='password' name='password' placeholder='Password' required>
+        <input type='text' name='nome' placeholder='Nome' required>
+        <input type='number' name='eta' placeholder='Età' required>
+        <select name='provincia' required>
+            <option value='' disabled selected>Seleziona Provincia (Lombardia)</option>
+            {% for prov in provincie %}
+                <option value='{{ prov }}'>{{ prov }}</option>
+            {% endfor %}
+        </select>
+        <textarea name='bio' placeholder='La tua biografia'></textarea>
+        <input type='text' name='foto' placeholder='Link URL foto profilo (opzionale)'>
+        <button type='submit'>Crea Account</button>
+        <a href='/login'>Hai già un account? Accedi</a>
+    </form>
+</body>
+</html>
