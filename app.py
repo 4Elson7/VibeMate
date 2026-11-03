@@ -60,10 +60,15 @@ def home():
     
     conn = get_db()
     c = conn.cursor()
-    c.execute('''
-        SELECT id, nome, eta, provincia, bio, foto FROM utenti
-        WHERE id != ? AND id NOT IN (SELECT target_id FROM likes WHERE user_id = ?)
-    ''', (session['user_id'], session['user_id']))
+    # Se la tabella likes è vuota, evitiamo il crash gestendola in sicurezza
+    try:
+        c.execute('''
+            SELECT id, nome, eta, provincia, bio, foto FROM utenti
+            WHERE id != ? AND id NOT IN (SELECT target_id FROM likes WHERE user_id = ?)
+        ''', (session['user_id'], session['user_id']))
+    except:
+        c.execute('SELECT id, nome, eta, provincia, bio, foto FROM utenti WHERE id != ?', (session['user_id'],))
+        
     profili = [dict(row) for row in c.fetchall()]
     conn.close()
 
