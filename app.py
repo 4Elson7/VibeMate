@@ -7,6 +7,10 @@ from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.secret_key = 'vibemate_chiave_segreta_super_sicura'
+
+with app.app_context():
+    init_db()
+
 PROVINCIE_LOMBARDIA = [
     "Bergamo", "Brescia", "Como", "Cremona", "Lecco", 
     "Lodi", "Mantova", "Milano", "Monza e Brianza", "Pavia", "Sondrio", "Varese"
