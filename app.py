@@ -98,17 +98,6 @@ def matches():
     if 'user_id' not in session:
         return redirect('/login')
 
-    user_id = session['user_id']
-    conn = get_db()
-    c = conn.cursor()
-    c.execute('''
-        SELECT u.id, u.nome, u.foto, u.provincia FROM utenti u
-        JOIN likes l1 ON u.id = l1.target_id AND l1.user_id = ? AND l1.azione = 'like'
-        JOIN likes l2 ON u.id = l2.user_id AND l2.target_id = ? AND l2.azione = 'like'
-    ''', (user_id, user_id))
-    match_list = [dict(row) for row in c.fetchall()]
-    conn.close()
-
     return "Sezione Match in arrivo!"
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -131,9 +120,9 @@ def register():
             conn.close()
             return redirect('/login')
         except Exception as e:
-            return f"Errore durante la registrazione (Email già in uso?): {e} <a href='/register'>Riprova</a>"
+            return f"Errore durante la registrazione: {e} <a href='/register'>Riprova</a>"
 
-    return render_template('index.html', is_register=True, provincie=PROVINCIE_LOMBARDIA, profili=[])
+    return render_template('register.html', provincie=PROVINCIE_LOMBARDIA)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -155,7 +144,7 @@ def login():
         else:
             return "Credenziali errate! <a href='/login'>Riprova</a>"
 
-    return render_template('index.html', is_login=True, profili=[])
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
