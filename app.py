@@ -24,9 +24,10 @@ def get_db():
 def init_db():
     conn = get_db()
     c = conn.cursor()
+    
     # Tabella Utenti
     c.execute('''CREATE TABLE IF NOT EXISTS utenti (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         nome TEXT NOT NULL,
@@ -35,22 +36,25 @@ def init_db():
         bio TEXT,
         foto TEXT
     )''')
+    
     # Tabella Like / Swipes
     c.execute('''CREATE TABLE IF NOT EXISTS likes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id INT NOT NULL,
         target_id INT NOT NULL,
         azione TEXT NOT NULL,
         UNIQUE(user_id, target_id)
     )''')
+    
     # Tabella Messaggi Chat
     c.execute('''CREATE TABLE IF NOT EXISTS messaggi (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         mittente_id INT NOT NULL,
         destinatario_id INT NOT NULL,
         testo TEXT NOT NULL,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )''')
+    
     conn.commit()
     conn.close()
 
