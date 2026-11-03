@@ -133,7 +133,7 @@ def register():
         except Exception as e:
             return f"Errore durante la registrazione (Email già in uso?): {e} <a href='/register'>Riprova</a>"
 
-    return render_template('index.html', is_register=True, provincie=PROVINCIE_LOMBARDIA)
+    return render_template('index.html', is_register=True, provincie=PROVINCIE_LOMBARDIA, profili=[])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -155,7 +155,7 @@ def login():
         else:
             return "Credenziali errate! <a href='/login'>Riprova</a>"
 
-    return render_template('index.html', is_login=True)
+    return render_template('index.html', is_login=True, profili=[])
 
 @app.route('/logout')
 def logout():
