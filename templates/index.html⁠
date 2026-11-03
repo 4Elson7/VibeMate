@@ -1,146 +1,100 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeMate - Home</title>
+    <title>VibeMate - Lombardia</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Header con Logo */
-        .app-header {
-            position: absolute;
-            top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .app-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #ff2a85, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-        }
-
-        /* Container della Card Stile Tinder */
-        .card-container {
-            position: relative;
-            width: 90%;
-            max-width: 380px;
-            height: 70vh;
-            background: #151b2b;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Info utente sfumate in basso sulla foto */
-        .card-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 25px 20px;
-            background: linear-gradient(to top, rgba(11, 15, 25, 0.95), transparent);
-        }
-
-        .card-info h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .card-info p {
-            font-size: 1rem;
-            color: #a0aec0;
-        }
-
-        /* Bottoni d'azione */
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: none;
-            background: #151b2b;
-            color: #ffffff;
-            font-size: 1.4rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-dislike {
-            color: #ff4757;
-        }
-
-        .btn-like {
-            color: #2ed573;
-        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #0f0f13; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; padding: 15px; }
+        header { width: 100%; max-width: 400px; position: absolute; top: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; font-size: 20px; color: #ff4757; }
+        .user-tag { font-size: 13px; color: #aaa; }
+        .main-container { width: 100%; max-width: 400px; height: 580px; position: relative; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        .card { width: 100%; height: 100%; background: #1a1a24; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #2a2a38; position: absolute; }
+        .card-img { width: 100%; height: 70%; background-size: cover; background-position: center; background-color: #222; }
+        .card-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 5px; }
+        .card-info h2 { margin: 0; font-size: 22px; }
+        .badge { display: inline-block; background: rgba(255,71,87,0.2); color: #ff4757; border: 1px solid rgba(255,71,87,0.4); font-size: 12px; padding: 3px 8px; border-radius: 6px; width: fit-content; }
+        .card-info p { margin: 0; color: #aaa; font-size: 14px; line-height: 1.4; }
+        .actions { display: flex; justify-content: space-around; padding: 15px; background: #14141c; }
+        .btn { width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .dislike { background: #2a2a38; color: #ff4757; }
+        .like { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255,71,87,0.4); }
+        .btn:active { transform: scale(0.9); }
+        nav.bottom-bar { width: 100%; max-width: 400px; background: #1a1a24; border-top: 1px solid #2a2a38; display: flex; nav.bottom-bar a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; text-align: center; flex: 1; padding: 15px 0; }
+        nav.bottom-bar a.active { color: #ff4757; }
+        .no-profiles { text-align: center; color: #888; font-size: 16px; padding: 40px; }
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo">VibeMate 🔥</div>
+        <div class="user-tag">📍 {{ session.get('user_provincia') }} | {{ session.get('user_nome') }}</div>
+    </header>
 
-    <!-- Logo in alto -->
-    <div class="app-header">
-        <div class="app-logo">⚡ VibeMate</div>
-    </div>
-
-    <!-- Card del profilo -->
-    <div class="card-container">
-        <!-- Esempio con dati dinamici che arriveranno dal database -->
-        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80" alt="Foto profilo" class="card-image">
-        
-        <div class="card-info">
-            <h2>Giulia, 24</h2>
-            <p>📍 Varese</p>
+    <div class="main-container">
+        <div class="card" id="card">
+            <div class="card-img" id="img"></div>
+            <div class="card-info">
+                <h2 id="name"></h2>
+                <span class="badge" id="provincia"></span>
+                <p id="bio"></p>
+            </div>
+            <div class="actions">
+                <button class="btn dislike" onclick="swipe('dislike')">✕</button>
+                <button class="btn like" onclick="swipe('like')">❤</button>
+            </div>
+        </div>
+        <div id="no-more" class="no-profiles" style="display:none;">
+            <h3>Nessun altro profilo in zona</h3>
+            <p>Torna più tardi per scoprire nuovi profili in Lombardia.</p>
         </div>
     </div>
 
-    <!-- Pulsanti interattivi -->
-    <div class="action-buttons">
-        <button class="btn btn-dislike">✕</button>
-        <button class="btn btn-like">♥</button>
-    </div>
+    <nav class="bottom-bar">
+        <a href="/" class="active">🔥 Swipe</a>
+        <a href="/matches">💬 Chat & Match</a>
+        <a href="/logout">🚪 Esci</a>
+    </nav>
 
+    <script>
+        let profiles = {{ profili | tojson }};
+        let index = 0;
+
+        function renderCard() {
+            if (!profiles || index >= profiles.length) {
+                document.getElementById('card').style.display = 'none';
+                document.getElementById('no-more').style.display = 'block';
+                return;
+            }
+            const p = profiles[index];
+            document.getElementById('img').style.backgroundImage = `url('${p.foto || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=60'}')`;
+            document.getElementById('name').innerText = p.nome + ", " + p.eta;
+            document.getElementById('provincia').innerText = p.provincia;
+            document.getElementById('bio').innerText = p.bio || "Nessuna biografia.";
+        }
+
+        async function swipe(action) {
+            if (index >= profiles.length) return;
+            const targetId = profiles[index].id;
+
+            const res = await fetch('/api/swipe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target_id: targetId, action: action })
+            });
+            const data = await res.json();
+
+            if (data.match) {
+                alert('🎉 UN MATCH! Vi siete messi Like a vicenda! Ora puoi scrivergli nella sezione Chat!');
+            }
+
+            index++;
+            renderCard();
+        }
+
+        renderCard();
+    </script>
 </body>
 </html>
