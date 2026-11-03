@@ -2,17 +2,22 @@ import os
 from flask import Flask, render_template_string, request, jsonify, session, redirect, url_for
 import sqlite3
 import werkzeug.security as security
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.secret_key = 'vibemate_chiave_segreta_super_sicura'
-
 PROVINCIE_LOMBARDIA = [
     "Bergamo", "Brescia", "Como", "Cremona", "Lecco", 
     "Lodi", "Mantova", "Milano", "Monza e Brianza", "Pavia", "Sondrio", "Varese"
 ]
 
 def get_db():
-    conn = sqlite3.connect(r'C:\Ultron\progetti\tinder.db')
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        conn = psycopg2.connect(db_url, cursor_factory=RealDictCursor)
+        return conn
+    conn = sqlite3.connect('tinder.db')
     conn.row_factory = sqlite3.Row
     return conn
 
